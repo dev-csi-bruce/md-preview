@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown Canvas | Online Markdown Editor with Mermaid to PDF/PNG</title>
+    <meta
+      name="description"
+      content="Online Markdown editor with live preview, Mermaid diagram rendering, and one-click export to PDF or PNG. 100% static client-side app with no server upload."
+    />
+    <meta
+      name="keywords"
+      content="online markdown editor, markdown preview, mermaid markdown to pdf, markdown to png, markdown mermaid export, static markdown editor, secure markdown editor, 마크다운 에디터, mermaid pdf 변환, markdown 이미지 내보내기"
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <meta name="application-name" content="Markdown Canvas" />
+    <meta name="theme-color" content="#0e1117" />
+    <link rel="canonical" href="/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Markdown Canvas" />
+    <meta
+      property="og:title"
+      content="Markdown Canvas | Online Markdown Editor with Mermaid to PDF/PNG"
+    />
+    <meta
+      property="og:description"
+      content="Write Markdown online, render Mermaid charts, preview instantly, and export to PDF or PNG in your browser."
+    />
+    <meta property="og:url" content="/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ko_KR" />
+    <meta property="og:locale:alternate" content="ja_JP" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Markdown Canvas | Online Markdown Editor with Mermaid to PDF/PNG"
+    />
+    <meta
+      name="twitter:description"
+      content="Static Markdown + Mermaid editor and preview tool with PDF/PNG export."
+    />
+
+    <script id="ld-webapp" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Markdown Canvas",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "inLanguage": ["en", "ko", "ja", "zh"],
+        "browserRequirements": "Requires JavaScript and a modern browser",
+        "description": "Online Markdown editor with Mermaid live preview and export to PDF or PNG in a fully static client-side app.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Online Markdown editor and live preview",
+          "Mermaid diagram rendering from fenced mermaid blocks",
+          "Code block syntax highlighting",
+          "Export preview to PNG and PDF",
+          "Fully static client-side architecture (no server-side content upload)"
+        ]
+      }
+    </script>
+    <script id="ld-faq" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How can I export Markdown with Mermaid diagrams to PDF?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Write Markdown with mermaid fenced code blocks in the editor, check the rendered preview, and click Export PDF."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I export Markdown preview as PNG image?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Click Export PNG to download the rendered preview content as an image."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this Markdown editor static and client-side only?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Markdown Canvas works as a static website and renders content in your browser without requiring a backend service."
+            }
+          }
+        ]
+      }
+    </script>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2311262f'/%3E%3Cpath d='M14 20h8l10 13 10-13h8v24h-8V33l-10 13-10-13v11h-8z' fill='%2335c2a0'/%3E%3C/svg%3E"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      id="hljs-theme"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="background-layer" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow" id="eyebrow-text">Markdown Playground</p>
+          <h1>Markdown Canvas</h1>
+        </div>
+        <div class="header-controls">
+          <div id="mode-switch-group" class="mode-switch" role="group" aria-label="Layout mode">
+            <button id="mode-split-btn" type="button" class="mode-chip is-active" data-mode="split" title="Editor + Preview (Ctrl/Cmd+P)">Split</button>
+            <button id="mode-editor-btn" type="button" class="mode-chip" data-mode="editor" title="Editor only">Editor</button>
+            <button id="mode-preview-btn" type="button" class="mode-chip" data-mode="preview" title="Preview only">Preview</button>
+          </div>
+          <div class="theme-control">
+            <label id="theme-select-label" class="visually-hidden" for="theme-select">Theme</label>
+            <select id="theme-select" class="theme-select" title="Theme">
+              <option value="dark-plus">VS Dark+</option>
+              <option value="light-plus">VS Light+</option>
+              <option value="monokai">Monokai</option>
+              <option value="solarized-dark">Solarized Dark</option>
+            </select>
+          </div>
+          <div class="language-control">
+            <div
+              id="language-flag-group"
+              class="language-flags"
+              role="group"
+              aria-label="Language"
+            >
+              <button
+                type="button"
+                class="lang-flag-btn is-active"
+                data-language="en"
+                aria-label="English"
+                aria-pressed="true"
+                title="English"
+              >
+                <img src="https://flagcdn.com/us.svg" alt="US flag" width="20" height="14" loading="lazy" />
+              </button>
+              <button
+                type="button"
+                class="lang-flag-btn"
+                data-language="ko"
+                aria-label="Korean"
+                aria-pressed="false"
+                title="한국어"
+              >
+                <img src="https://flagcdn.com/kr.svg" alt="Korea flag" width="20" height="14" loading="lazy" />
+              </button>
+              <button
+                type="button"
+                class="lang-flag-btn"
+                data-language="ja"
+                aria-label="Japanese"
+                aria-pressed="false"
+                title="日本語"
+              >
+                <img src="https://flagcdn.com/jp.svg" alt="Japan flag" width="20" height="14" loading="lazy" />
+              </button>
+              <button
+                type="button"
+                class="lang-flag-btn"
+                data-language="zh"
+                aria-label="Chinese"
+                aria-pressed="false"
+                title="中文"
+              >
+                <img src="https://flagcdn.com/cn.svg" alt="China flag" width="20" height="14" loading="lazy" />
+              </button>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="sample-btn" type="button">Load Sample</button>
+            <button id="clear-btn" type="button" class="ghost">Clear</button>
+            <button id="export-png-btn" type="button" class="ghost">Export PNG</button>
+            <button id="export-pdf-btn" type="button" class="ghost">Export PDF</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="panes" id="panes">
+        <section class="pane input-pane">
+          <div class="editor-head">
+            <label id="markdown-input-label" for="markdown-input" class="pane-title">Markdown Input</label>
+            <div class="editor-head-right">
+              <span id="char-count" class="metric">0 chars</span>
+              <button
+                type="button"
+                class="shortcut-help"
+                id="shortcut-help"
+                aria-describedby="shortcut-tooltip"
+                title="Show shortcuts"
+              >
+                ?
+              </button>
+              <div id="shortcut-tooltip" class="shortcut-tooltip" role="tooltip">
+                <p id="shortcut-title">Shortcuts</p>
+                <p id="shortcut-line-1">Ctrl/Cmd + 1/2/3/4/5/6: H1-H6</p>
+                <p id="shortcut-line-2">Ctrl/Cmd + B/I/K/L/O/J/U/G</p>
+                <p id="shortcut-line-3">Shift + Ctrl/Cmd + H: Horizontal rule</p>
+                <p id="shortcut-line-4">Ctrl/Cmd + P: Split/Preview toggle</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="editor-toolbar" class="toolbar" aria-label="Markdown editor toolbar">
+            <div id="formatting-group" class="toolbar-group" role="group" aria-label="formatting">
+              <label id="heading-select-label" class="visually-hidden" for="heading-select">Heading level</label>
+              <select id="heading-select" class="tool-select" title="Heading Level (Ctrl/Cmd+1~6)">
+                <option id="heading-option-default" value="">Heading</option>
+                <option value="1">H1</option>
+                <option value="2">H2</option>
+                <option value="3">H3</option>
+                <option value="4">H4</option>
+                <option value="5">H5</option>
+                <option value="6">H6</option>
+              </select>
+              <button type="button" class="tool-btn icon-btn" data-action="bold" aria-label="Bold" title="Bold (Ctrl/Cmd+B)">B</button>
+              <button type="button" class="tool-btn icon-btn" data-action="italic" aria-label="Italic" title="Italic (Ctrl/Cmd+I)">I</button>
+              <button type="button" class="tool-btn icon-btn" data-action="strike" aria-label="Strike" title="Strike (Ctrl/Cmd+D)">S</button>
+              <button type="button" class="tool-btn icon-btn" data-action="link" aria-label="Link" title="Link (Ctrl/Cmd+K)">⛓</button>
+              <button type="button" class="tool-btn icon-btn" data-action="ul" aria-label="Bullet List" title="List (Ctrl/Cmd+L)">•</button>
+              <button type="button" class="tool-btn icon-btn" data-action="ol" aria-label="Ordered List" title="Ordered List (Ctrl/Cmd+O)">1.</button>
+              <button type="button" class="tool-btn icon-btn" data-action="task" aria-label="Task List" title="Task List (Ctrl/Cmd+J)">☑</button>
+              <button type="button" class="tool-btn icon-btn" data-action="quote" aria-label="Quote" title="Quote (Ctrl/Cmd+;)">❞</button>
+              <button type="button" class="tool-btn icon-btn" data-action="inline-code" aria-label="Inline Code" title="Inline Code (Ctrl/Cmd+G)">&lt;/&gt;</button>
+              <button type="button" class="tool-btn icon-btn" data-action="code-block" aria-label="Code Block" title="Code Block (Ctrl/Cmd+U)">{ }</button>
+              <button type="button" class="tool-btn icon-btn" data-action="table" aria-label="Table" title="Table (Ctrl/Cmd+M)">▦</button>
+              <button type="button" class="tool-btn icon-btn" data-action="mermaid" aria-label="Mermaid Block" title="Mermaid Block">◇</button>
+              <button type="button" class="tool-btn icon-btn" data-action="hr" aria-label="Horizontal Rule" title="Horizontal Rule (Shift+Ctrl/Cmd+H)">—</button>
+            </div>
+
+            <div id="history-group" class="toolbar-group" role="group" aria-label="history">
+              <button type="button" class="tool-btn icon-btn" data-action="undo" aria-label="Undo" title="Undo (Ctrl/Cmd+Z)">↶</button>
+              <button type="button" class="tool-btn icon-btn" data-action="redo" aria-label="Redo" title="Redo (Ctrl/Cmd+Y)">↷</button>
+            </div>
+          </div>
+
+          <div class="editor-meta">
+            <div class="editor-status" aria-live="polite">
+              <span id="cursor-pos">Ln 1, Col 1</span>
+              <span id="word-count">0 words</span>
+              <span id="draft-status">Draft not saved</span>
+            </div>
+          </div>
+
+          <textarea
+            id="markdown-input"
+            spellcheck="false"
+            aria-label="Markdown input"
+            placeholder="# Write your Markdown here"
+          ></textarea>
+        </section>
+
+        <section class="pane preview-pane">
+          <div class="preview-title-row">
+            <h2 id="preview-pane-title" class="pane-title">Preview</h2>
+            <span id="render-status" aria-live="polite">Ready</span>
+          </div>
+          <p id="render-error" class="render-error" role="alert" hidden></p>
+          <article id="preview" class="preview-content" aria-label="Markdown preview"></article>
+        </section>
+      </main>
+    </div>
+
+    <section class="seo-content" aria-labelledby="seo-content-title">
+      <h2 id="seo-content-title">Online Markdown + Mermaid Export Tool</h2>
+      <p>
+        Markdown Canvas is an online Markdown editor with live preview, Mermaid chart rendering, and
+        instant PDF/PNG export.
+      </p>
+      <p>
+        It runs as a static client-side website, so your Markdown content stays in your browser and does
+        not require server-side processing.
+      </p>
+      <p>
+        Search terms this page targets: markdown mermaid to pdf, markdown to png, online markdown editor,
+        markdown live preview, 마크다운 에디터, mermaid pdf 변환.
+      </p>
+    </section>
+
+    <noscript>
+      <p class="seo-noscript">
+        Markdown Canvas is a static online Markdown editor with Mermaid support and PDF/PNG export.
+        Enable JavaScript to use the live editor and preview features.
+      </p>
+    </noscript>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/marked/14.1.2/marked.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

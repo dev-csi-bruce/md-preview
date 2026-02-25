@@ -6,6 +6,7 @@ const sampleBtn = document.getElementById("sample-btn");
 const clearBtn = document.getElementById("clear-btn");
 const exportPngBtn = document.getElementById("export-png-btn");
 const exportPdfBtn = document.getElementById("export-pdf-btn");
+const githubStarLinkEl = document.getElementById("github-star-link");
 const charCountEl = document.getElementById("char-count");
 const cursorPosEl = document.getElementById("cursor-pos");
 const wordCountEl = document.getElementById("word-count");
@@ -74,6 +75,7 @@ const I18N = {
     languageChinese: "Chinese",
     loadSample: "Load Sample",
     clearInput: "Clear",
+    githubStarTitle: "Star on GitHub",
     exportPng: "Export PNG",
     exportPdf: "Export PDF",
     exportPngTitle: "Export preview as PNG",
@@ -170,6 +172,7 @@ const I18N = {
     languageChinese: "중국어",
     loadSample: "샘플 불러오기",
     clearInput: "입력 지우기",
+    githubStarTitle: "GitHub에서 스타 주기",
     exportPng: "PNG 내보내기",
     exportPdf: "PDF 내보내기",
     exportPngTitle: "미리보기를 PNG로 내보내기",
@@ -266,6 +269,7 @@ const I18N = {
     languageChinese: "中国語",
     loadSample: "サンプル読み込み",
     clearInput: "入力クリア",
+    githubStarTitle: "GitHub でスターを付ける",
     exportPng: "PNG 書き出し",
     exportPdf: "PDF 書き出し",
     exportPngTitle: "プレビューを PNG として書き出し",
@@ -362,6 +366,7 @@ const I18N = {
     languageChinese: "中文",
     loadSample: "加载示例",
     clearInput: "清空输入",
+    githubStarTitle: "在 GitHub 上点 Star",
     exportPng: "导出 PNG",
     exportPdf: "导出 PDF",
     exportPngTitle: "将预览导出为 PNG",
@@ -1429,6 +1434,8 @@ function applyLanguage(language, persist = true) {
 
   sampleBtn.textContent = t("loadSample");
   clearBtn.textContent = t("clearInput");
+  githubStarLinkEl.title = t("githubStarTitle");
+  githubStarLinkEl.setAttribute("aria-label", t("githubStarTitle"));
   exportPngBtn.textContent = t("exportPng");
   exportPdfBtn.textContent = t("exportPdf");
   exportPngBtn.title = t("exportPngTitle");

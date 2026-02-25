@@ -480,7 +480,11 @@ button {
   gap: 0.42rem;
 }
 
-.actions button {
+.actions button,
+.actions .icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   background: linear-gradient(130deg, var(--button-primary-start), var(--button-primary-end));
@@ -488,21 +492,38 @@ button {
   font-weight: 700;
   height: 36px;
   padding: 0 0.76rem;
+  text-decoration: none;
   transition: transform 120ms ease, box-shadow 160ms ease;
 }
 
-.actions button:hover {
+.actions button:hover,
+.actions .icon-link:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px var(--button-primary-shadow);
 }
 
-.actions button.ghost {
+.actions button.ghost,
+.actions .icon-link.ghost {
   color: var(--text-main);
   background: var(--button-ghost-bg);
   border-color: var(--line);
 }
 
+.actions .icon-link {
+  min-width: 36px;
+  padding: 0 0.38rem;
+  line-height: 1;
+}
+
+.actions .icon-link .github-star-badge {
+  display: block;
+  width: auto;
+  height: 20px;
+  border-radius: 4px;
+}
+
 .actions button:focus-visible,
+.actions .icon-link:focus-visible,
 .tool-btn:focus-visible,
 .mode-chip:focus-visible,
 .theme-select:focus-visible,

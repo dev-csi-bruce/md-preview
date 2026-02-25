@@ -533,7 +533,14 @@ function saveToStorage(key, value) {
 }
 
 function applyRuntimeSeoMeta() {
-  const absoluteUrl = `${window.location.origin}${window.location.pathname}`;
+  let pathname = window.location.pathname;
+  if (pathname.endsWith("/index.html")) {
+    pathname = pathname.slice(0, -10);
+  }
+  if (!pathname.endsWith("/")) {
+    pathname += "/";
+  }
+  const absoluteUrl = `${window.location.origin}${pathname}`;
   const canonicalLink = document.querySelector('link[rel="canonical"]');
   const ogUrlMeta = document.querySelector('meta[property="og:url"]');
   if (canonicalLink) {
